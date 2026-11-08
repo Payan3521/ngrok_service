@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  ngrok_tunnel:
+    image: ngrok/ngrok:latest
+    container_name: ngrok_contenedor
+    command:
+      - "http"
+      - "host.docker.internal:${APP_PORT}"
+      - "--url=${NGROK_DOMAIN:-}"
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    ports:
+      - "4040:4040"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
